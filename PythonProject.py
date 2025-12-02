@@ -1,15 +1,14 @@
 import random
 
-def read_money():
-    money = 0
-    with open("money.txt") as file:
+def read_money(money):
+    with open("money.txt", "r") as file:
         money = file.read()
     print(money)
     return money
 
 def write_money(money):
-    with open("money.txt") as file:
-        file.write(money)
+    with open("money.txt", "w") as file:
+        file.write(str(money))
 
 
 
@@ -19,8 +18,10 @@ def main():
     print("BLACKJACK!")
     print("Blackjack payout is 3:2")
     print()
-    money = read_money()
+    money = read_money(money)
+    money = float(money)
     print(f"Money: {money}")
+    money = money - 10
     write_money(money)
     
 
