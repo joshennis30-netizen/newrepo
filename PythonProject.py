@@ -1,15 +1,22 @@
 import random
+from db import read_money
+from db import write_money
 
-def read_money(money):
-    with open("money.txt", "r") as file:
-        money = file.read()
-    print(money)
-    return money
-
-def write_money(money):
-    with open("money.txt", "w") as file:
-        file.write(str(money))
-
+def bet(bet_amount, outcome, money):
+    if outcome == "lose":
+        money -= bet_amount
+    else:
+        bet_amount = bet_amount * 1.5
+        bet_amount = round(bet_amount, 2)
+        money += bet_amount
+    
+def cards_deck():
+    cards = ["Hearts", "Diamonds", "Clubs", "Spades"]
+    deck = []
+    for card in cards:
+        for i in range(1, 13):
+            deck.append([i, "of", card])
+    print(deck[0])
 
 
 
@@ -19,10 +26,10 @@ def main():
     print("Blackjack payout is 3:2")
     print()
     money = read_money(money)
-    money = float(money)
     print(f"Money: {money}")
-    money = money - 10
-    write_money(money)
+    bet_amount = float(input("Bet amount: "))
+    print()
+    cards_deck()
     
 
 if __name__ == "__main__":
