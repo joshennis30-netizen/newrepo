@@ -10,19 +10,19 @@ def bet(bet_amount, outcome, money):
         bet_amount = round(bet_amount, 2)
         money += bet_amount
         print(f"Money: {money}")
-        money = write_money(money)
+        write_money(money)
         print()
-        choice = input("Play again? (y/n): ")
+        choice = input("Play again? (y/n): ").lower()
         if choice == "n":
             print("Come back soon!")
             print("Bye!")
             exit()
     elif outcome == "lose":
         money -= bet_amount
-        money = write_money(money)
+        write_money(money)
         print(f"Money: {money}")
         print()
-        choice = input("Play again? (y/n): ")
+        choice = input("Play again? (y/n): ").lower()
         if choice == "n":
            print("Come back soon!")
            print("Bye!")
@@ -31,7 +31,7 @@ def bet(bet_amount, outcome, money):
         money += bet_amount
         print(f"Money: {money}")
         print()
-        choice = input("Play again? (y/n): ")
+        choice = input("Play again? (y/n): ").lower()
         if choice == "n":
             print("Come back soon!")
             print("Bye!")
@@ -96,6 +96,7 @@ def betting(money):
             print("Must be valid integer or float. Try again.")
 
 def main():
+    buy = "v"
     fold = "x"
     deck = []
     turn = 0
@@ -104,9 +105,18 @@ def main():
     print("BLACKJACK!")
     print("Blackjack payout is 3:2")
     print()
-    money = read_money(money)
     while True:
+        money = read_money(money)
         print(f"Money: {money}")
+        if money < 5:
+            while buy != "n":
+                buy = input("Not enough money to bet. Would you like to buy some chips> (y/n)").lower()
+                if buy == "y":
+                    money += 5
+                    write_money(money)
+                    break
+                else:
+                    break
         bet_amount = betting(money)
         print()
         cards_deck(deck)
@@ -124,30 +134,26 @@ def main():
         print("DEALER's SHOW CARD:")
         print(deal_hand[0])
         print()
-        for i in range(0, len(play_hand)):
-                if play_hand[i][0] == "Jack" or play_hand[i][0] == "King" or play_hand[i][0] == "Queen":
-                    play_score += 10
-                elif play_hand[i][0] == 11 and play_score > 11:
-                    play_score += 1
-                else:
-                    play_score += int(play_hand[i][0])
         print("YOUR CARDS:")
         print(play_hand[0])
         print(play_hand[1])
         print()
-        fold = input("Hit or stand? (hit/stand): ")
-        print()
-        while fold != "stand":
+        fold = input("Hit or stand? (hit/stand): ").lower()
+        while fold == "hit":
             hand = random.randrange(0, len(deck))
             play_hand.append(deck[hand])
-            deck.pop(hand)     
+            deck.pop(hand)
             for i in range(0, len(play_hand)):
-                if play_hand[i][0] == "Jack" or play_hand[i][0] == "King" or play_hand[i][0] == "Queen":
-                    play_score += 10
-                elif play_hand[i][0] == 11 and play_score > 11:
-                    play_score += 1
-                else:
-                    play_score += int(play_hand[i][0])
+                print(play_hand[i])
+            fold = input("Hit or stand? (hit/stand): ")
+        for i in range(0, len(play_hand)):
+            if play_hand[i][0] == "Jack" or play_hand[i][0] == "King" or play_hand[i][0] == "Queen":
+                play_score += 10
+            elif play_hand[i][0] == 11 and play_score > 11:
+                play_score += 1
+            else:
+                play_score += int(play_hand[i][0])
+        fold = "x"
         print("DEALER'S CARDS:")
         for i in range(0, len(deal_hand)):
             print(deal_hand[i])
