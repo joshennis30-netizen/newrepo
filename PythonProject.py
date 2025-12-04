@@ -3,12 +3,12 @@ from db import read_money
 from db import write_money
 
 def bet(bet_amount, outcome, money):
-    if outcome == "lose":
-        money -= bet_amount
-    else:
+    if outcome == "win":
         bet_amount = bet_amount * 1.5
         bet_amount = round(bet_amount, 2)
         money += bet_amount
+    else:
+        continue
     
 def cards_deck(deck):
     values = [11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -35,7 +35,19 @@ def player_hand(deck):
     play_hand.append(deck[hand])
     deck.pop[hand]
 
-
+def betting(money):
+    while True:
+        try:
+            bet_amount = float(input("Bet amount: ")) 
+            if bet_amount < 5 or bet_amount > 1000:
+                print("Bet amount must be more than 5 and less than 1000. Try again.")
+            elif bet_amount > money:
+                print("Bet amount cannot be greater than current money. Try again.")
+            else:
+                money -= bet_amount
+                return bet_amount
+        except ValueError:
+            print("Must be valid integer or float. Try again.")
 
 def main():
     deck = []
@@ -46,9 +58,7 @@ def main():
     print()
     money = read_money(money)
     print(f"Money: {money}")
-    bet_amount = float(input("Bet amount: "))
-    if bet_amount < 5 or bet_amount > 1000:
-        print("Bet amount must be more than 5 and less than 1000. Try again.")
+    betting(money)
     print()
     cards_deck(deck)
     
